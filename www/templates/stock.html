@@ -1,0 +1,106 @@
+<ion-view view-title="{{ticker}}" drag-content="false">
+
+  <ion-nav-bar id="stock-navbar" class="bar-dark ng-style:reactiveColor">
+    <ion-nav-back-button></ion-nav-back-button>
+  </ion-nav-bar>
+
+  <div class="bar bar-subheader bar-light" id="stock-subheader-bar">
+
+    <div class="buttons" side="left">
+      <div class="button button-clear display-flex">
+        <h6 id="stock-name">{{stockDetailData.Name}}</h6>
+      </div>
+    </div>
+    <h2 class="title button-left button-right" id="stock-price">{{stockPriceData.LastPrice | shrinkNumber:2}}</h2>
+    <div class="buttons" side="right">
+      <div class="button button-clear">
+        <h6 id="stock-change" ng-class="stockPriceData.change < 0 ? 'assertive' : 'balanced'"><span ng-if="stockPriceData.change > 0">+</span>{{stockPriceData.Change | shrinkNumber:2}}<br>(<span ng-if="stockPriceData.Change > 0">+</span>{{stockPriceData.ChangePercent | number:3}})</h6>
+      </div>
+    </div>
+
+  </div>
+
+  <ion-content class="has-subheader" scrollbar-y="false">
+
+    <div class="button-bar" id="short-button-bar">
+      <a ng-click="chartViewFunction(1)" ng-class="chartView == 1 ? 'active' : ''" class="button">Day</a>
+      <a ng-click="chartViewFunction(2)" ng-class="chartView == 2 ? 'active' : ''" class="button">Week</a>
+      <a ng-click="chartViewFunction(3)" ng-class="chartView == 3 ? 'active' : ''" class="button">3m</a>
+      <a ng-click="chartViewFunction(4)" ng-class="chartView == 4 ? 'active' : ''" class="button">Year</a>
+      <a ng-click="chartViewFunction(5)" ng-class="chartView == 5 ? 'active' : ''" class="button">Max</a>
+    </div>
+
+    <img ng-if="chartView ==1" ng-src="http://chart.finance.yahoo.com/z?s={{ticker}}&t=1d&q=l&l=on&z=m&a=vm" style="width: 100%">
+    <img ng-if="chartView ==2" ng-src="http://chart.finance.yahoo.com/z?s={{ticker}}&t=5d&q=l&l=on&z=m&a=vm" style="width: 100%">
+    <img ng-if="chartView ==3" ng-src="http://chart.finance.yahoo.com/z?s={{ticker}}&t=3m&q=l&l=on&z=m&a=vm" style="width: 100%">
+    <div ng-if="chartView ==4" nv-chart="chartOptions" id="interactiveChart" >Chart</div>
+    <img ng-if="chartView ==5" ng-src="http://chart.finance.yahoo.com/z?s={{ticker}}&t=my&q=l&l=on&z=m&a=vm" style="width: 100%">
+
+    <div class="card" id="market-data-card">
+      <div class="item item-divider">Market Data<span class="last-trade">Last trade: {{stockDetailData.LastTradeTime}}</span></div>
+      <div class="row row-center">
+        <div class="col">Ask: </div>
+        <div class="col col-20">{{stockDetailData.Ask | shrinkNumber:2}}</div>
+        <div class="col">Bid: </div>
+        <div class="col col-20">{{stockDetailData.Bid | shrinkNumber:2}}</div>
+      </div>
+
+      <div class="row row-center">
+        <div class="col">Previous Close: </div>
+        <div class="col col-20">{{stockDetailData.PreviousClose | shrinkNumber:2}}</div>
+        <div class="col">Open: </div>
+        <div class="col col-20">{{stockDetailData.Open | shrinkNumber:2}}</div>
+      </div>
+
+      <div class="row row-center">
+        <div class="col">Day's High: </div>
+        <div class="col col-20">{{stockDetailData.DaysHigh | shrinkNumber:2}}</div>
+        <div class="col">Day's Low: </div>
+        <div class="col col-20">{{stockDetailData.DaysLow | shrinkNumber:2}}</div>
+      </div>
+
+      <div class="row row-center">
+        <div class="col">Year's High: </div>
+        <div class="col col-20">{{stockDetailData.YearHigh | shrinkNumber:2}}</div>
+        <div class="col">Year's Low: </div>
+        <div class="col col-20">{{stockDetailData.YearLow | shrinkNumber:2}}</div>
+      </div>
+
+      <div class="row row-center">
+        <div class="col">Volume: </div>
+        <div class="col col-20">{{stockDetailData.Volume | shrinkNumber:2}}</div>
+        <div class="col">Avg. Volume: </div>
+        <div class="col col-20">{{stockDetailData.AverageDailyVolume | shrinkNumber:2}}</div>
+      </div>
+
+      <div class="row row-center">
+        <div class="col">Market Cap: </div>
+        <div class="col col-20">{{stockDetailData.MarketCapitalization}}</div>
+        <div class="col">EBITDA: </div>
+        <div class="col col-20">{{stockDetailData.EBITDA}}</div>
+      </div>
+      <div class="row row-center">
+        <div class="col">P/E: </div>
+        <div class="col col-20">{{stockDetailData.PERatio | shrinkNumber:2}}</div>
+        <div class="col">EPS: </div>
+        <div class="col col-20">{{stockDetailData.EarningsShare | shrinkNumber:2}}</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="item item-divider">Notes</div>
+      <a class="item">
+        <h2>Note Title</h2>
+      </a>
+    </div>
+
+    <div class="card">
+      <div class="item item-divider">News</div>
+      <a class="item item-icon-right">
+        <h2>News Story Title</h2>
+        <i class="icon ion-ios-arrow-right"></i>
+      </a>
+    </div>
+
+  </ion-content>
+</ion-view>
